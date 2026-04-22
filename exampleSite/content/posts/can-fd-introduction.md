@@ -3,6 +3,7 @@ title: "CAN FD for Embedded Engineers: A Practical Introduction"
 date: 2024-04-03
 description: "A ground-up explanation of CAN FD (ISO 11898-1:2015) for engineers familiar with classic CAN, covering frame format, bit-rate switching, and common driver pitfalls."
 tags: ["CAN FD", "automotive", "embedded", "protocols", "STM32"]
+category: "Protocols"
 categories: ["protocols"]
 ---
 

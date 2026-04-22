@@ -5,6 +5,7 @@ description: "A 5-stage in-order RISC-V RV32IM softcore implemented in VHDL, syn
 tags: ["RISC-V", "VHDL", "FPGA", "Artix-7", "hardware design"]
 status: "active"
 github: "https://github.com/rfleuryleveso/rv32im-softcore"
+category: "Hardware Design"
 featured: true
 ---
 

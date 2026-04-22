@@ -6,6 +6,7 @@ venue: "IEEE International Symposium on Software Reliability Engineering (ISSRE)
 doi: "10.1109/ISSRE.2023.00078"
 abstract: "We describe a toolchain that applies Bounded Model Checking (CBMC) and Frama-C's WP plug-in to verify ISO 26262 ASIL-D firmware modules. A set of 12 production ECU drivers is verified for absence of buffer overflows, integer overflows, and null-pointer dereferences with a combined false-positive rate below 4%."
 tags: ["formal verification", "CBMC", "Frama-C", "ISO 26262", "AUTOSAR", "safety-critical"]
+category: "Safety & Verification"
 featured: false
 ---
 

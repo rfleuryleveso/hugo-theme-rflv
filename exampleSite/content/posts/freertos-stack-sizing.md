@@ -3,6 +3,7 @@ title: "How to Size FreeRTOS Task Stacks Without Guessing"
 date: 2024-08-12
 description: "A practical, measurement-driven guide to determining correct FreeRTOS task stack sizes using uxTaskGetStackHighWaterMark and static analysis."
 tags: ["FreeRTOS", "RTOS", "C", "embedded", "debugging"]
+category: "Firmware"
 categories: ["firmware"]
 ---
 

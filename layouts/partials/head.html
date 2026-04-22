@@ -2,34 +2,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-{{- with .Description }}<meta name="description" content="{{ . }}">{{ else }}<meta name="description" content="{{ .Site.Params.description }}">{{ end }}
-{{- with .Params.authors }}<meta name="author" content="{{ delimit . ", " }}">{{ else }}<meta name="author" content="{{ .Site.Params.author }}">{{ end }}
-
 {{- $title := cond .IsHome .Site.Title (printf "%s | %s" .Title .Site.Title) }}
 <title>{{ $title }}</title>
 
-<!-- Canonical -->
+{{- with .Description }}<meta name="description" content="{{ . }}">
+{{- else }}<meta name="description" content="{{ .Site.Params.description }}">{{ end }}
+{{- with .Params.authors }}<meta name="author" content="{{ delimit . ", " }}">
+{{- else }}<meta name="author" content="{{ .Site.Params.author }}">{{ end }}
+
 <link rel="canonical" href="{{ .Permalink }}">
 
 <!-- Open Graph -->
-<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
-<meta property="og:title" content="{{ $title }}">
+<meta property="og:type"        content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:title"       content="{{ $title }}">
 <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-<meta property="og:url" content="{{ .Permalink }}">
-{{- with .Site.Params.ogImage }}<meta property="og:image" content="{{ . | absURL }}">{{ end }}
+<meta property="og:url"         content="{{ .Permalink }}">
+{{- with (.Params.featured_image | default .Site.Params.ogImage) }}
+<meta property="og:image" content="{{ . | absURL }}">
+{{- end }}
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="{{ "favicon.svg" | relURL }}">
 <link rel="alternate icon" href="{{ "favicon.ico" | relURL }}">
 
-<!-- Theme CSS -->
-<link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
-
-<!-- Syntax highlighting (Hugo built-in) -->
-{{- if .Site.Params.syntaxHighlight }}
-{{ partial "syntax-highlight.html" . }}
-{{- end }}
-
-{{- range .Site.Params.customCSS }}
-<link rel="stylesheet" href="{{ . | relURL }}">
-{{- end }}
+<!-- Preconnect for Google Fonts (loaded in CSS) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

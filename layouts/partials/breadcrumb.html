@@ -1,16 +1,15 @@
-{{- $page := . -}}
 {{- if not .IsHome -}}
-<nav class="breadcrumb" aria-label="Breadcrumb">
-  <a href="{{ .Site.BaseURL }}">Home</a>
-  {{- $ancestors := slice -}}
-  {{- range .Ancestors -}}
-    {{- $ancestors = $ancestors | append . -}}
-  {{- end -}}
-  {{- range ($ancestors | collections.Reverse) }}
-  <span class="breadcrumb-sep" aria-hidden="true">›</span>
-  <a href="{{ .Permalink }}">{{ .Title }}</a>
-  {{- end }}
-  <span class="breadcrumb-sep" aria-hidden="true">›</span>
-  <span aria-current="page">{{ .Title }}</span>
+<nav class="max-w-7xl mx-auto px-4 sm:px-6 py-3" aria-label="Breadcrumb">
+  <ol class="flex items-center gap-1.5 text-xs text-gray-400 flex-wrap">
+    <li><a href="{{ .Site.BaseURL }}" class="hover:text-gray-900 transition-colors">Home</a></li>
+    {{- $ancestors := slice -}}
+    {{- range .Ancestors -}}{{- $ancestors = $ancestors | append . -}}{{- end -}}
+    {{- range ($ancestors | collections.Reverse) }}
+    <li aria-hidden="true" class="text-gray-300">›</li>
+    <li><a href="{{ .Permalink }}" class="hover:text-gray-900 transition-colors">{{ .Title }}</a></li>
+    {{- end }}
+    <li aria-hidden="true" class="text-gray-300">›</li>
+    <li class="text-gray-600 font-medium" aria-current="page">{{ .Title }}</li>
+  </ol>
 </nav>
 {{- end -}}

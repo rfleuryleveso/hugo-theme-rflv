@@ -1,64 +1,78 @@
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <!-- About column -->
-      <div class="footer-col">
-        <div class="footer-col__title">{{ .Site.Title }}</div>
-        <p>{{ .Site.Params.description }}</p>
-        {{- with .Site.Params.affiliations }}
-        {{- range . }}
-        <p>{{ . }}</p>
-        {{- end }}
-        {{- end }}
+<footer class="bg-gray-950 text-gray-400 mt-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+
+    <!-- Top row: brand + nav columns -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+
+      <!-- Brand / bio column -->
+      <div class="md:col-span-2">
+        <div class="flex items-baseline gap-2 mb-3">
+          <span class="text-[0.6rem] tracking-[0.25em] text-gray-500 uppercase font-semibold">
+            {{- .Site.Params.brandPrefix | default "IEEE" -}}
+          </span>
+          <span class="text-xl font-black text-white font-mono">{{ .Site.Title }}</span>
+        </div>
+        <p class="text-sm leading-relaxed text-gray-400 mb-4 max-w-sm">
+          {{ .Site.Params.description }}
+        </p>
         <!-- Social links -->
-        <div style="display:flex;gap:.6rem;margin-top:.75rem;flex-wrap:wrap;">
+        <div class="flex items-center gap-3 flex-wrap">
           {{- with .Site.Params.github }}
-          <a href="https://github.com/{{ . }}" class="btn btn--ghost btn--sm" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/{{ . }}" target="_blank" rel="noopener"
+             class="text-xs font-semibold text-gray-400 hover:text-white transition-colors">GitHub</a>
           {{- end }}
           {{- with .Site.Params.linkedin }}
-          <a href="https://linkedin.com/in/{{ . }}" class="btn btn--ghost btn--sm" target="_blank" rel="noopener">LinkedIn</a>
+          <span class="text-gray-700">·</span>
+          <a href="https://linkedin.com/in/{{ . }}" target="_blank" rel="noopener"
+             class="text-xs font-semibold text-gray-400 hover:text-white transition-colors">LinkedIn</a>
           {{- end }}
           {{- with .Site.Params.orcid }}
-          <a href="https://orcid.org/{{ . }}" class="btn btn--ghost btn--sm" target="_blank" rel="noopener">ORCID</a>
+          <span class="text-gray-700">·</span>
+          <a href="https://orcid.org/{{ . }}" target="_blank" rel="noopener"
+             class="text-xs font-semibold text-gray-400 hover:text-white transition-colors">ORCID</a>
           {{- end }}
           {{- with .Site.Params.googleScholar }}
-          <a href="{{ . }}" class="btn btn--ghost btn--sm" target="_blank" rel="noopener">Scholar</a>
+          <span class="text-gray-700">·</span>
+          <a href="{{ . }}" target="_blank" rel="noopener"
+             class="text-xs font-semibold text-gray-400 hover:text-white transition-colors">Scholar</a>
           {{- end }}
         </div>
       </div>
 
-      <!-- Quick links -->
-      <div class="footer-col">
-        <div class="footer-col__title">Sections</div>
-        <ul>
-          {{- range .Site.Menus.footer }}
-          <li><a href="{{ .URL }}">{{ .Name }}</a></li>
-          {{- end }}
-          {{- if not .Site.Menus.footer }}
+      <!-- Sections column -->
+      <div>
+        <div class="text-[0.65rem] font-black uppercase tracking-[0.1em] text-gray-500 mb-4">Sections</div>
+        <ul class="space-y-2.5 text-sm">
           {{- range .Site.Menus.main }}
-          <li><a href="{{ .URL }}">{{ .Name }}</a></li>
-          {{- end }}
+          <li>
+            <a href="{{ .URL }}" class="text-gray-400 hover:text-white transition-colors">{{ .Name }}</a>
+          </li>
           {{- end }}
         </ul>
       </div>
 
-      <!-- Recent posts -->
-      <div class="footer-col">
-        <div class="footer-col__title">Recent Posts</div>
-        <ul>
+      <!-- Recent articles column -->
+      <div>
+        <div class="text-[0.65rem] font-black uppercase tracking-[0.1em] text-gray-500 mb-4">Recent Articles</div>
+        <ul class="space-y-3 text-sm">
           {{- $posts := where .Site.RegularPages "Type" "posts" }}
           {{- range first 4 $posts }}
-          <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+          <li>
+            <a href="{{ .Permalink }}" class="text-gray-400 hover:text-white transition-colors leading-snug block">
+              {{ .Title }}
+            </a>
+          </li>
           {{- end }}
         </ul>
       </div>
     </div>
 
-    <div class="footer-bottom">
+    <!-- Bottom bar -->
+    <div class="border-t border-gray-800 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-xs text-gray-600">
       <span>
         &copy; {{ now.Year }} {{ .Site.Params.author | default .Site.Title }}.
-        Built with <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>
-        &amp; <a href="https://github.com/rfleuryleveso/hugo-theme-rflv" target="_blank" rel="noopener">RFLV theme</a>.
+        Built with <a href="https://gohugo.io" class="hover:text-gray-400 transition-colors" target="_blank" rel="noopener">Hugo</a>
+        &amp; <a href="https://github.com/rfleuryleveso/hugo-theme-rflv" class="hover:text-gray-400 transition-colors" target="_blank" rel="noopener">RFLV</a>.
       </span>
       {{- with .Site.Params.license }}
       <span>{{ . }}</span>

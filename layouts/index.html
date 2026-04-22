@@ -1,132 +1,141 @@
 {{ define "main" }}
+{{- $pages := .Site.RegularPages -}}
+{{- $featured := where $pages "Params.featured" true -}}
+{{- $hero := index ($featured | default $pages) 0 -}}
 
-<!-- Hero section -->
-{{- $params := .Site.Params }}
-<div style="margin: -1.75rem -1.25rem 2rem; padding: 0 1.25rem;">
-  <div class="hero">
-    <div class="container">
-      <!-- Avatar -->
-      <div class="hero__avatar" aria-hidden="true">
-        {{- with $params.avatarImage }}
-        <img src="{{ . | relURL }}" alt="{{ $params.author }} avatar">
-        {{- else }}
-        {{ substr ($params.author | default "Me") 0 1 | upper }}
+<!-- ── Hero section ────────────────────────────────────────── -->
+{{- if $hero }}
+<section class="border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+
+      <!-- Featured article: 2/3 width -->
+      <div class="lg:col-span-2 group">
+        <a href="{{ $hero.Permalink }}" class="block overflow-hidden aspect-video mb-5 bg-gray-100">
+          {{- if $hero.Params.featured_image }}
+          <img src="{{ $hero.Params.featured_image | relURL }}"
+               alt="{{ $hero.Title }}"
+               class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105">
+          {{- else }}
+          <div class="w-full h-full placeholder-{{ $hero.Type }} flex items-center justify-center">
+            <span class="text-white/10 text-[8rem] font-black font-mono leading-none select-none">
+              {{- substr $hero.Title 0 1 -}}
+            </span>
+          </div>
+          {{- end }}
+        </a>
+
+        <p class="category-label mb-2">
+          {{- with $hero.Params.category }}{{ . }}{{ else }}{{ $hero.Type | title }}{{ end -}}
+        </p>
+        <h2 class="text-3xl lg:text-4xl font-black leading-tight text-gray-900 mb-3">
+          <a href="{{ $hero.Permalink }}" class="hover:text-red-700 transition-colors">{{ $hero.Title }}</a>
+        </h2>
+        {{- with ($hero.Description | default $hero.Params.abstract) }}
+        <p class="text-base text-gray-600 leading-relaxed mb-4 line-clamp-3">{{ . }}</p>
+        {{- end }}
+        <div class="card-meta">
+          {{- with $hero.Params.authors }}
+          <span class="font-medium text-gray-700">{{ index . 0 }}</span>
+          <span class="text-gray-300">·</span>
+          {{- end }}
+          <time datetime="{{ $hero.Date.Format "2006-01-02" }}">{{ $hero.Date.Format "Jan 2, 2006" }}</time>
+          {{- with $hero.ReadingTime }}
+          <span class="text-gray-300">·</span>
+          <span>{{ . }} min read</span>
+          {{- end }}
+        </div>
+      </div>
+
+      <!-- Secondary stories: 1/3 width -->
+      <div class="flex flex-col divide-y divide-gray-100">
+        {{- range (after 1 $pages | first 4) }}
+        <div class="py-5 first:pt-0 last:pb-0 group">
+          <p class="category-label mb-1">
+            {{- with .Params.category }}{{ . }}{{ else }}{{ .Type | title }}{{ end -}}
+          </p>
+          <h3 class="text-[0.95rem] font-bold leading-snug text-gray-900 group-hover:text-red-700 transition-colors mb-2">
+            <a href="{{ .Permalink }}">{{ .Title }}</a>
+          </h3>
+          <div class="card-meta">
+            {{- with .Params.authors }}
+            <span>{{ index . 0 }}</span>
+            <span class="text-gray-300">·</span>
+            {{- end }}
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+          </div>
+        </div>
         {{- end }}
       </div>
 
-      <!-- Content -->
-      <div class="hero__content">
-        <div class="hero__name">{{ $params.author | default .Site.Title }}</div>
-        <div class="hero__title">{{ $params.role | default "Embedded Software Engineer" }}</div>
-        <p class="hero__bio">{{ $params.bio | default .Site.Params.description }}</p>
+    </div>
+  </div>
+</section>
+{{- end }}
 
-        <div class="hero__links">
-          {{- with $params.github }}
-          <a class="btn btn--outline" href="https://github.com/{{ . }}" target="_blank" rel="noopener">GitHub</a>
-          {{- end }}
-          {{- with $params.linkedin }}
-          <a class="btn btn--outline" href="https://linkedin.com/in/{{ . }}" target="_blank" rel="noopener">LinkedIn</a>
-          {{- end }}
-          {{- with $params.orcid }}
-          <a class="btn btn--outline" href="https://orcid.org/{{ . }}" target="_blank" rel="noopener">ORCID</a>
-          {{- end }}
-          {{- with $params.email }}
-          <a class="btn btn--outline" href="mailto:{{ . }}">Email</a>
-          {{- end }}
-          {{- with $params.cvLink }}
-          <a class="btn btn--primary" href="{{ . | relURL }}">Download CV</a>
+<!-- ── Main content grid ──────────────────────────────────── -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
+
+    <!-- Articles (3/4) -->
+    <div class="lg:col-span-3 space-y-12">
+
+      <!-- Publications -->
+      {{- $pubs := where $pages "Type" "publications" }}
+      {{- if $pubs }}
+      <section>
+        <div class="section-header">
+          <h2>Publications</h2>
+          <a href="{{ "/publications/" | relURL }}">View all →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          {{- $fp := where $pubs "Params.featured" true }}
+          {{- range (cond (gt (len $fp) 0) $fp (first 2 $pubs)) }}
+          {{ partial "result-card.html" . }}
           {{- end }}
         </div>
+      </section>
+      {{- end }}
 
-        <!-- Stats -->
-        {{- $pubs := where .Site.RegularPages "Type" "publications" }}
-        {{- $projs := where .Site.RegularPages "Type" "projects" }}
-        {{- $posts := where .Site.RegularPages "Type" "posts" }}
-        <div class="hero__stats">
-          {{- if $pubs }}
-          <div class="hero__stat">
-            <div class="hero__stat-num">{{ len $pubs }}</div>
-            <div class="hero__stat-label">Publications</div>
-          </div>
-          {{- end }}
-          {{- if $projs }}
-          <div class="hero__stat">
-            <div class="hero__stat-num">{{ len $projs }}</div>
-            <div class="hero__stat-label">Projects</div>
-          </div>
-          {{- end }}
-          {{- if $posts }}
-          <div class="hero__stat">
-            <div class="hero__stat-num">{{ len $posts }}</div>
-            <div class="hero__stat-label">Articles</div>
-          </div>
-          {{- end }}
-          {{- with $params.yearsExperience }}
-          <div class="hero__stat">
-            <div class="hero__stat-num">{{ . }}+</div>
-            <div class="hero__stat-label">Years Exp.</div>
-          </div>
+      <!-- Projects -->
+      {{- $projs := where $pages "Type" "projects" }}
+      {{- if $projs }}
+      <section>
+        <div class="section-header">
+          <h2>Projects</h2>
+          <a href="{{ "/projects/" | relURL }}">View all →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          {{- $fp := where $projs "Params.featured" true }}
+          {{- range (cond (gt (len $fp) 0) $fp (first 2 $projs)) }}
+          {{ partial "result-card.html" . }}
           {{- end }}
         </div>
-      </div>
+      </section>
+      {{- end }}
+
+      <!-- Latest articles -->
+      {{- $posts := where $pages "Type" "posts" }}
+      {{- if $posts }}
+      <section>
+        <div class="section-header">
+          <h2>Latest Articles</h2>
+          <a href="{{ "/posts/" | relURL }}">View all →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {{- range first 3 $posts }}
+          {{ partial "result-card.html" . }}
+          {{- end }}
+        </div>
+      </section>
+      {{- end }}
+
+    </div>
+
+    <!-- Sidebar (1/4) -->
+    <div class="hidden lg:block">
+      {{ partial "sidebar.html" . }}
     </div>
   </div>
 </div>
-
-<!-- Main content grid -->
-<div class="page-layout">
-  <div class="page-content">
-
-    <!-- Featured / recent publications -->
-    {{- $pubs := where .Site.RegularPages "Type" "publications" }}
-    {{- if $pubs }}
-    <div class="section-title">
-      Publications
-      <a href="{{ "/publications/" | relURL }}">View all →</a>
-    </div>
-    <div class="result-list" style="margin-bottom:2rem;">
-      {{- $featured := where $pubs "Params.featured" true }}
-      {{- $shown := cond (gt (len $featured) 0) $featured (first 3 $pubs) }}
-      {{- range $shown }}
-      {{ partial "result-card.html" . }}
-      {{- end }}
-    </div>
-    {{- end }}
-
-    <!-- Featured / recent projects -->
-    {{- $projs := where .Site.RegularPages "Type" "projects" }}
-    {{- if $projs }}
-    <div class="section-title">
-      Projects
-      <a href="{{ "/projects/" | relURL }}">View all →</a>
-    </div>
-    <div class="result-list" style="margin-bottom:2rem;">
-      {{- $featured := where $projs "Params.featured" true }}
-      {{- $shown := cond (gt (len $featured) 0) $featured (first 3 $projs) }}
-      {{- range $shown }}
-      {{ partial "result-card.html" . }}
-      {{- end }}
-    </div>
-    {{- end }}
-
-    <!-- Recent posts -->
-    {{- $posts := where .Site.RegularPages "Type" "posts" }}
-    {{- if $posts }}
-    <div class="section-title">
-      Recent Articles
-      <a href="{{ "/posts/" | relURL }}">View all →</a>
-    </div>
-    <div class="result-list">
-      {{- range first 3 $posts }}
-      {{ partial "result-card.html" . }}
-      {{- end }}
-    </div>
-    {{- end }}
-
-  </div>
-
-  <!-- Sidebar -->
-  {{ partial "sidebar.html" . }}
-</div>
-
 {{ end }}

@@ -2,9 +2,12 @@
 {{- $alt := .Get "alt" | default "" -}}
 {{- $caption := .Get "caption" | default "" -}}
 {{- $width := .Get "width" | default "100%" -}}
-<figure style="text-align:center;margin:1.5rem 0;">
-  <img src="{{ $src | relURL }}" alt="{{ $alt }}" style="max-width:{{ $width }};border:1px solid var(--ieee-border);border-radius:var(--radius);">
+<figure class="not-prose my-8 text-center">
+  <img src="{{ $src | relURL }}"
+       alt="{{ $alt }}"
+       class="border border-gray-200 mx-auto"
+       style="max-width:{{ $width }}">
   {{- with $caption }}
-  <figcaption>{{ . | markdownify }}</figcaption>
+  <figcaption class="mt-2 text-xs text-gray-500 italic">{{ . | markdownify }}</figcaption>
   {{- end }}
 </figure>

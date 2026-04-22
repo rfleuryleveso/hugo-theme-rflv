@@ -1,0 +1,165 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@source "hugo_stats.json";
+
+/* ── Custom theme tokens ──────────────────────────────────── */
+@theme {
+  /* Fonts — Open Sans (primary) + JetBrains Mono (code/accent, per Pentagram's
+     "monospaced to evoke code screens and engineering" directive) */
+  --font-sans: "Inter", "Open Sans", ui-sans-serif, system-ui, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", ui-monospace, "Courier New", monospace;
+  --font-display: "Inter", "Open Sans", ui-sans-serif, system-ui, Arial, sans-serif;
+
+  /* IEEE brand colors */
+  --color-ieee-red:    #c8102e;
+  --color-ieee-blue:   #00629b;
+  --color-ieee-dark:   #0a0a0a;
+  --color-ieee-gray:   #111827;
+
+  /* Topic accent colors (for category pills) */
+  --color-topic-computing:   #1d4ed8;
+  --color-topic-hardware:    #0f766e;
+  --color-topic-rtos:        #15803d;
+  --color-topic-protocols:   #7e22ce;
+  --color-topic-research:    #b45309;
+  --color-topic-firmware:    #be185d;
+}
+
+/* ── Google Fonts ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+/* ── Base ─────────────────────────────────────────────────── */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body { @apply antialiased text-gray-900 bg-white; font-family: var(--font-sans); }
+  a { @apply transition-colors duration-150; }
+  img { @apply max-w-full h-auto; display: block; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-red-700; }
+}
+
+/* ── Component layer ──────────────────────────────────────── */
+@layer components {
+
+  /* Category / topic label — small red uppercase pill */
+  .category-label {
+    @apply inline-block text-[0.65rem] font-bold uppercase tracking-[0.12em] text-red-700;
+  }
+
+  /* Card title hover */
+  .card-title {
+    @apply font-bold leading-snug text-gray-900 transition-colors duration-150 group-hover:text-red-700;
+  }
+
+  /* Card meta row */
+  .card-meta {
+    @apply flex items-center gap-1.5 text-xs text-gray-500;
+  }
+
+  /* Article card image wrapper */
+  .card-image {
+    @apply block overflow-hidden aspect-video bg-gray-100 mb-3;
+  }
+  .card-image img {
+    @apply w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105;
+  }
+
+  /* Primary nav link */
+  .nav-link {
+    @apply block px-4 py-3 text-[0.75rem] font-semibold text-gray-400
+           hover:text-white uppercase tracking-wide whitespace-nowrap
+           transition-colors duration-150 border-b-2 border-transparent;
+  }
+  .nav-link-active {
+    @apply text-white border-b-2 border-red-600;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold
+           transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-red-700;
+  }
+  .btn-primary   { @apply btn bg-red-700 text-white hover:bg-red-800; }
+  .btn-secondary { @apply btn border border-gray-300 text-gray-700 hover:bg-gray-50; }
+  .btn-ghost     { @apply btn text-gray-500 hover:text-gray-900 hover:bg-gray-100; }
+  .btn-sm        { @apply text-xs px-3 py-1.5; }
+
+  /* Section divider header */
+  .section-header {
+    @apply flex items-baseline justify-between pb-2 mb-6 border-b-2 border-gray-900;
+  }
+  .section-header h2 {
+    @apply text-base font-black uppercase tracking-tight;
+  }
+  .section-header a {
+    @apply text-xs font-semibold text-red-700 hover:text-red-800 uppercase tracking-wide;
+  }
+
+  /* Tag / keyword pill */
+  .tag-pill {
+    @apply inline-block px-2.5 py-0.5 text-xs font-semibold bg-gray-100
+           text-gray-600 hover:bg-red-700 hover:text-white transition-colors duration-150;
+  }
+
+  /* Sidebar widget */
+  .widget { @apply mb-8; }
+  .widget-title {
+    @apply text-[0.7rem] font-black uppercase tracking-[0.1em] text-gray-400 mb-3 pb-1 border-b border-gray-200;
+  }
+
+  /* Article prose adjustments */
+  .article-prose {
+    @apply prose prose-lg max-w-none
+           prose-headings:font-bold prose-headings:text-gray-900
+           prose-h2:text-2xl prose-h3:text-xl
+           prose-a:text-red-700 prose-a:font-medium prose-a:no-underline hover:prose-a:underline
+           prose-code:font-mono prose-code:text-sm prose-code:bg-gray-100
+           prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:text-gray-800
+           prose-code:before:content-none prose-code:after:content-none
+           prose-pre:bg-gray-950 prose-pre:text-gray-100 prose-pre:rounded-none
+           prose-pre:border-l-4 prose-pre:border-red-700
+           prose-blockquote:border-l-4 prose-blockquote:border-red-700
+           prose-blockquote:bg-red-50 prose-blockquote:px-5 prose-blockquote:py-0.5
+           prose-blockquote:not-italic prose-blockquote:text-gray-700
+           prose-img:rounded-none prose-img:border prose-img:border-gray-200
+           prose-table:text-sm prose-th:bg-gray-900 prose-th:text-white;
+  }
+
+  /* Shortcode callout boxes */
+  .callout {
+    @apply flex gap-3 p-4 mb-4 text-sm leading-relaxed;
+  }
+  .callout-note    { @apply callout bg-blue-50  border-l-4 border-blue-500  text-blue-900; }
+  .callout-warning { @apply callout bg-amber-50 border-l-4 border-amber-500 text-amber-900; }
+  .callout-tip     { @apply callout bg-green-50 border-l-4 border-green-600 text-green-900; }
+  .callout-abstract { @apply callout bg-red-50  border-l-4 border-red-700   text-gray-800; }
+
+  /* DOI panel */
+  .doi-panel {
+    @apply flex flex-wrap items-center gap-3 p-3 bg-gray-50 border border-gray-200 text-sm;
+  }
+
+  /* Pagination */
+  .pager {
+    @apply inline-flex items-center justify-center w-9 h-9 text-sm font-medium
+           border border-gray-200 text-gray-600 hover:bg-red-700 hover:text-white
+           hover:border-red-700 transition-colors duration-150;
+  }
+  .pager-active { @apply bg-red-700 text-white border-red-700; }
+}
+
+/* ── Utilities ────────────────────────────────────────────── */
+@layer utilities {
+  /* Hide scrollbar but allow scrolling */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  /* Gradient placeholders by content type */
+  .placeholder-publications { background: linear-gradient(135deg, #1e3a5f 0%, #0a1628 100%); }
+  .placeholder-projects      { background: linear-gradient(135deg, #1a3a2f 0%, #0a1a14 100%); }
+  .placeholder-posts         { background: linear-gradient(135deg, #1f2937 0%, #0a0f1a 100%); }
+  .placeholder-default       { background: linear-gradient(135deg, #374151 0%, #111827 100%); }
+}

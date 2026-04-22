@@ -1,25 +1,19 @@
 {{ define "main" }}
 {{ partial "breadcrumb.html" . }}
 
-<div class="page-layout">
-  <div class="page-content">
-    <div class="page-header">
-      <h1>
-        {{- if eq .Data.Plural "tags" }}Keyword: {{ end }}
-        "{{ .Title }}"
-      </h1>
-      <p class="page-meta">{{ len .Pages }} {{ if eq (len .Pages) 1 }}result{{ else }}results{{ end }}</p>
-    </div>
-
-    <div class="result-list">
-      {{- range .Pages }}
-      {{ partial "result-card.html" . }}
-      {{- end }}
-    </div>
-
-    {{ template "_internal/pagination.html" . }}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+  <div class="pb-6 mb-8 border-b-2 border-gray-900">
+    <p class="category-label mb-1">{{ .Data.Plural | title }}</p>
+    <h1 class="text-3xl font-black text-gray-900">{{ .Title }}</h1>
+    <p class="text-xs text-gray-400 mt-1 font-mono">
+      {{ len .Pages }} {{ if eq (len .Pages) 1 }}item{{ else }}items{{ end }}
+    </p>
   </div>
 
-  {{ partial "sidebar.html" . }}
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    {{- range .Pages }}
+    {{ partial "result-card.html" . }}
+    {{- end }}
+  </div>
 </div>
 {{ end }}

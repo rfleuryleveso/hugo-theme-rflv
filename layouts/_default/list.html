@@ -1,40 +1,72 @@
 {{ define "main" }}
 {{ partial "breadcrumb.html" . }}
 
-<div class="page-layout">
-  <!-- Main content -->
-  <div class="page-content">
-    <div class="page-header">
-      <h1>{{ .Title }}</h1>
-      {{- with .Description }}
-      <p class="page-meta">{{ . }}</p>
-      {{- end }}
-      {{- if .Pages }}
-      <p class="page-meta">{{ len .Pages }} {{ if eq (len .Pages) 1 }}result{{ else }}results{{ end }}</p>
-      {{- end }}
-    </div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
-    {{- with .Content }}
-    <div class="article-body" style="margin-bottom:1.5rem;">{{ . }}</div>
+  <!-- Page header -->
+  <div class="pb-6 mb-8 border-b-2 border-gray-900">
+    <h1 class="text-3xl font-black uppercase tracking-tight text-gray-900 mb-1">{{ .Title }}</h1>
+    {{- with .Description }}
+    <p class="text-gray-500 text-sm">{{ . }}</p>
     {{- end }}
-
     {{- if .Pages }}
-    <div class="result-list">
-      {{- range .Pages }}
-      {{ partial "result-card.html" . }}
-      {{- end }}
-    </div>
-
-    <!-- Pagination -->
-    {{- template "_internal/pagination.html" . }}
-    {{- else }}
-    <div class="result-card" style="text-align:center;color:var(--ieee-text-muted);padding:2rem;">
-      No content here yet.
-    </div>
+    <p class="text-xs text-gray-400 mt-1 font-mono">{{ len .Pages }} {{ if eq (len .Pages) 1 }}item{{ else }}items{{ end }}</p>
     {{- end }}
   </div>
 
-  <!-- Sidebar -->
-  {{ partial "sidebar.html" . }}
+  {{- with .Content }}
+  <div class="article-prose max-w-3xl mb-10">{{ . }}</div>
+  {{- end }}
+
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
+
+    <!-- Main grid -->
+    <div class="lg:col-span-3">
+      {{- if .Pages }}
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {{- range .Pages }}
+        {{ partial "result-card.html" . }}
+        {{- end }}
+      </div>
+
+      <!-- Pagination -->
+      {{- $paginator := .Paginator }}
+      {{- if gt $paginator.TotalPages 1 }}
+      <nav class="flex justify-center items-center gap-1.5 mt-12" aria-label="Pagination">
+        {{- if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}" class="pager">←</a>
+        {{- else }}
+        <span class="pager opacity-30 cursor-not-allowed">←</span>
+        {{- end }}
+
+        {{- range $paginator.Pagers }}
+        {{- if eq . $paginator }}
+        <span class="pager pager-active">{{ .PageNumber }}</span>
+        {{- else }}
+        <a href="{{ .URL }}" class="pager">{{ .PageNumber }}</a>
+        {{- end }}
+        {{- end }}
+
+        {{- if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}" class="pager">→</a>
+        {{- else }}
+        <span class="pager opacity-30 cursor-not-allowed">→</span>
+        {{- end }}
+      </nav>
+      {{- end }}
+
+      {{- else }}
+      <div class="text-center py-16 text-gray-400">
+        <div class="text-5xl font-mono mb-3 opacity-30">∅</div>
+        <p>No content here yet.</p>
+      </div>
+      {{- end }}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="hidden lg:block">
+      {{ partial "sidebar.html" . }}
+    </div>
+  </div>
 </div>
 {{ end }}

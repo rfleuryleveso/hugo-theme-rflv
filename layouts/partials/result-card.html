@@ -1,72 +1,79 @@
 {{- $p := . -}}
-<article class="result-card">
-  {{- if $p.Params.featured }}
-  <div class="result-card__featured-badge">Featured</div>
-  {{- end }}
+{{- $placeholderClass := printf "placeholder-%s" $p.Type -}}
 
-  <!-- Type badge -->
-  <span class="result-card__type result-card__type--{{ $p.Type }}">{{ $p.Type | title }}</span>
+<article class="group">
+
+  <!-- Cover image -->
+  <a href="{{ $p.Permalink }}" class="card-image" aria-hidden="true" tabindex="-1">
+    {{- if $p.Params.featured_image }}
+    <img src="{{ $p.Params.featured_image | relURL }}"
+         alt="{{ $p.Title }}"
+         loading="lazy">
+    {{- else }}
+    <div class="w-full h-full {{ $placeholderClass }} flex items-center justify-center">
+      <span class="text-white/10 text-6xl font-black font-mono select-none">
+        {{- substr $p.Title 0 1 -}}
+      </span>
+    </div>
+    {{- end }}
+  </a>
+
+  <!-- Category label -->
+  <p class="category-label mb-1.5">
+    {{- with $p.Params.category }}{{ . }}{{ else }}{{ $p.Type | title }}{{ end -}}
+  </p>
 
   <!-- Title -->
-  <div class="result-card__title">
-    <a href="{{ $p.Permalink }}">{{ $p.Title }}</a>
-  </div>
+  <h2 class="text-[1.05rem] font-bold leading-snug mb-2">
+    <a href="{{ $p.Permalink }}" class="card-title">{{ $p.Title }}</a>
+  </h2>
 
-  <!-- Authors (publications) -->
-  {{- with $p.Params.authors }}
-  <div class="result-card__authors">
-    {{- range $i, $a := . }}{{ if $i }}, {{ end }}<span>{{ $a }}</span>{{ end }}
-  </div>
-  {{- end }}
-
-  <!-- Venue (publications) -->
+  <!-- Venue / subtitle (publications) -->
   {{- with $p.Params.venue }}
-  <div class="result-card__venue">{{ . }}</div>
+  <p class="text-xs text-gray-500 italic mb-2 leading-snug">{{ . }}</p>
   {{- end }}
 
-  <!-- Meta row -->
-  <div class="result-card__meta">
-    <span class="result-card__meta-item">
-      📅 <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "Jan 2, 2006" }}</time>
-    </span>
-    {{- with $p.Params.doi }}
-    <span class="result-card__meta-item">DOI: <code>{{ . }}</code></span>
+  <!-- Description / abstract snippet -->
+  {{- with ($p.Description | default $p.Params.abstract) }}
+  <p class="text-sm text-gray-600 leading-relaxed line-clamp-2 mb-3">{{ . }}</p>
+  {{- end }}
+
+  <!-- Meta: author · date · reading time -->
+  <div class="card-meta mb-3">
+    {{- with $p.Params.authors }}
+    <span>{{ index . 0 }}</span>
+    <span class="text-gray-300">·</span>
     {{- end }}
-    {{- with $p.Params.status }}
-    <span class="result-card__meta-item">Status: {{ . }}</span>
-    {{- end }}
+    <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "Jan 2, 2006" }}</time>
     {{- with $p.ReadingTime }}
-    <span class="result-card__meta-item">⏱ {{ . }} min read</span>
+    <span class="text-gray-300">·</span>
+    <span>{{ . }} min read</span>
     {{- end }}
   </div>
-
-  <!-- Abstract / Description -->
-  {{- with ($p.Params.abstract | default $p.Description) }}
-  <div class="result-card__abstract">{{ . }}</div>
-  {{- end }}
 
   <!-- Tags -->
   {{- with $p.Params.tags }}
-  <div class="tag-list">
-    {{- range . }}
-    <a class="tag" href="{{ "/tags/" | relURL }}{{ . | urlize }}/">{{ . }}</a>
+  <div class="flex flex-wrap gap-1.5 mb-3">
+    {{- range first 4 . }}
+    <a href="{{ "/tags/" | relURL }}{{ . | urlize }}/" class="tag-pill">{{ . }}</a>
     {{- end }}
   </div>
   {{- end }}
 
-  <!-- Actions -->
-  <div class="result-card__actions">
-    <a class="btn btn--primary btn--sm" href="{{ $p.Permalink }}">
-      {{ if eq $p.Type "publications" }}Read Paper{{ else if eq $p.Type "projects" }}View Project{{ else }}Read More{{ end }}
-    </a>
+  <!-- Action links -->
+  {{- $hasActions := or $p.Params.pdf $p.Params.github $p.Params.doi }}
+  {{- if $hasActions }}
+  <div class="flex items-center gap-2 flex-wrap text-xs">
     {{- with $p.Params.pdf }}
-    <a class="btn btn--outline btn--sm" href="{{ . }}" target="_blank" rel="noopener">PDF</a>
+    <a href="{{ . }}" class="btn btn-primary btn-sm" target="_blank" rel="noopener">PDF</a>
     {{- end }}
     {{- with $p.Params.github }}
-    <a class="btn btn--ghost btn--sm" href="{{ . }}" target="_blank" rel="noopener">GitHub</a>
+    <a href="{{ . }}" class="btn btn-secondary btn-sm" target="_blank" rel="noopener">GitHub</a>
     {{- end }}
-    {{- with $p.Params.demo }}
-    <a class="btn btn--ghost btn--sm" href="{{ . }}" target="_blank" rel="noopener">Demo</a>
+    {{- with $p.Params.doi }}
+    <a href="https://doi.org/{{ . }}" class="btn btn-ghost btn-sm" target="_blank" rel="noopener">DOI ↗</a>
     {{- end }}
   </div>
+  {{- end }}
+
 </article>

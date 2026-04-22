@@ -1,6 +1,10 @@
 {{- $doi := .Get 0 -}}
-<div class="doi-panel">
-  <span class="doi-panel__label">DOI</span>
-  <a class="doi-panel__value" href="https://doi.org/{{ $doi }}" target="_blank" rel="noopener">{{ $doi }}</a>
-  <a class="btn btn--outline btn--sm" href="https://doi.org/{{ $doi }}" target="_blank" rel="noopener">Open ↗</a>
+<div class="doi-panel not-prose my-4">
+  <span class="text-xs font-black uppercase tracking-widest text-gray-400">DOI</span>
+  <a href="https://doi.org/{{ $doi }}"
+     class="font-mono text-sm text-red-700 hover:underline"
+     target="_blank" rel="noopener">{{ $doi }}</a>
+  <a href="https://doi.org/{{ $doi }}"
+     class="btn btn-secondary btn-sm ml-auto"
+     target="_blank" rel="noopener">Open ↗</a>
 </div>

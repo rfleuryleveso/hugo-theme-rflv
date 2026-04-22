@@ -1,4 +1,7 @@
 {{- $type := .Get "type" | default "note" -}}
-<div class="sc-{{ $type }}">
-  <strong>{{ $type | title }}:</strong> {{ .Inner | markdownify }}
+<div class="callout-{{ $type }} not-prose my-5">
+  <div class="flex-1">
+    <span class="font-bold capitalize">{{ $type }}:</span>
+    {{ .Inner | markdownify }}
+  </div>
 </div>

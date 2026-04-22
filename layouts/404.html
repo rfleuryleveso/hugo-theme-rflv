@@ -1,25 +1,26 @@
 <!DOCTYPE html>
-<html lang="{{ .Site.LanguageCode | default "en" }}">
+<html lang="{{ .Site.LanguageCode | default "en" }}" class="scroll-smooth">
 <head>
   {{ partial "head.html" . }}
+  {{ templates.Defer (dict "key" "css-global") }}
+    {{ partial "css.html" . }}
+  {{ end }}
 </head>
-<body>
+<body class="bg-white text-gray-900 min-h-screen flex flex-col">
   {{ partial "header.html" . }}
 
-  <main class="site-main" id="main-content">
-    <div class="container">
-      <div class="error-page">
-        <div class="error-page__code">404</div>
-        <h1 class="error-page__title">Page Not Found</h1>
-        <p class="error-page__desc">
-          The document you requested could not be located in the database.<br>
-          It may have been moved, removed, or the URL may be incorrect.
-        </p>
-        <div style="display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;">
-          <a class="btn btn--primary" href="{{ .Site.BaseURL }}">Return Home</a>
-          <a class="btn btn--outline" href="{{ "/publications/" | relURL }}">Browse Publications</a>
-          <a class="btn btn--ghost" href="{{ "/posts/" | relURL }}">Browse Articles</a>
-        </div>
+  <main class="flex-1 flex items-center justify-center px-4 py-24">
+    <div class="text-center max-w-md">
+      <div class="text-8xl font-black font-mono text-red-700 mb-2 leading-none">404</div>
+      <h1 class="text-2xl font-bold text-gray-900 mb-2">Page not found</h1>
+      <p class="text-gray-500 text-sm mb-8">
+        The document you requested could not be located.<br>
+        It may have been moved, removed, or the URL is incorrect.
+      </p>
+      <div class="flex items-center justify-center gap-3 flex-wrap">
+        <a href="{{ .Site.BaseURL }}" class="btn btn-primary">← Home</a>
+        <a href="{{ "/publications/" | relURL }}" class="btn btn-secondary">Publications</a>
+        <a href="{{ "/posts/" | relURL }}" class="btn btn-ghost">Articles</a>
       </div>
     </div>
   </main>

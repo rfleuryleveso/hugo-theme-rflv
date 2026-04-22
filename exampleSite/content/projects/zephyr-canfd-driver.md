@@ -5,6 +5,7 @@ description: "A production-quality CAN FD driver contributed to the Zephyr RTOS 
 tags: ["Zephyr", "CAN FD", "STM32", "RTOS", "C", "embedded"]
 status: "merged upstream"
 github: "https://github.com/rfleuryleveso/zephyr-stm32g0-canfd"
+category: "Firmware"
 featured: true
 ---
 

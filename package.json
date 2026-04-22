@@ -1,0 +1,14 @@
+{
+  "name": "hugo-theme-rflv",
+  "version": "2.0.0",
+  "description": "IEEE Spectrum-inspired Hugo theme for embedded software engineers",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "@tailwindcss/typography": "^0.5.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "scripts": {
+    "dev": "hugo server",
+    "build": "hugo --minify"
+  }
+}

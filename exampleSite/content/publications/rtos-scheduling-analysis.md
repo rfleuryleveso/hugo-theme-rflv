@@ -7,6 +7,7 @@ doi: "10.1109/RTSS.2024.00042"
 pdf: ""
 abstract: "We present a novel worst-case response-time (WCRT) analysis framework for mixed-criticality task sets executing on ARM Cortex-M4 microcontrollers under a fixed-priority preemptive scheduler. Our approach accounts for hardware-induced non-determinism from the data cache, pipeline stalls, and DMA contention. We validate our bounds against cycle-accurate simulation and demonstrate a reduction in analysis pessimism of up to 23% compared to state-of-the-art methods."
 tags: ["RTOS", "scheduling", "real-time", "ARM", "Cortex-M", "WCET", "mixed-criticality"]
+category: "Real-Time Systems"
 featured: true
 ---
 

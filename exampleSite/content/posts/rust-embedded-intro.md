@@ -3,6 +3,7 @@ title: "First Steps with Rust on Bare-Metal ARM (no_std)"
 date: 2024-01-18
 description: "A minimal working example of a Rust no_std firmware project targeting a Cortex-M4, using RTIC and probe-rs for flashing and debugging."
 tags: ["Rust", "ARM", "Cortex-M", "no_std", "RTIC", "embedded"]
+category: "Firmware"
 categories: ["firmware"]
 ---
 

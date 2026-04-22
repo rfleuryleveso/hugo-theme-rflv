@@ -1,8 +1,10 @@
 {{- $techs := split (.Get 0 | default "") "," -}}
-<div class="sc-chip-group">
+<div class="not-prose flex flex-wrap gap-1.5 my-3">
   {{- range $techs }}
   {{- $t := trim . " " }}
   {{- $slug := lower $t | replaceRE "[^a-z0-9-]" "-" }}
-  <span class="sc-chip sc-chip--{{ $slug }}">{{ $t }}</span>
+  <span class="inline-block px-2.5 py-1 text-xs font-bold font-mono text-white
+               bg-gray-800 hover:bg-red-700 transition-colors cursor-default"
+        data-tech="{{ $slug }}">{{ $t }}</span>
   {{- end }}
 </div>

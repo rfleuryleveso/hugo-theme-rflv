@@ -1,40 +1,49 @@
 {{- $page := . -}}
-<aside class="sidebar" aria-label="Sidebar">
+<aside class="space-y-8" aria-label="Sidebar">
 
-  <!-- Sections widget -->
-  <div class="sidebar-widget">
-    <div class="sidebar-widget__title">Browse</div>
-    <div class="sidebar-widget__body">
-      <ul class="sidebar-nav-list">
-        {{- $sections := slice "publications" "projects" "posts" }}
-        {{- range $sections }}
-          {{- $s := $.Site.GetPage . }}
-          {{- if $s }}
-          <li>
-            <a href="{{ $s.Permalink }}">
-              {{ $s.Title }}
-              <span class="count">{{ len $s.Pages }}</span>
-            </a>
-          </li>
-          {{- end }}
+  <!-- About widget -->
+  {{- with .Site.Params.author }}
+  <div class="widget">
+    <div class="widget-title">About</div>
+    <p class="text-sm text-gray-600 leading-relaxed">
+      {{- $.Site.Params.bio | default $.Site.Params.description }}
+    </p>
+    {{- with $.Site.Params.cvLink }}
+    <a href="{{ . | relURL }}" class="btn btn-primary btn-sm mt-3 inline-flex">Download CV</a>
+    {{- end }}
+  </div>
+  {{- end }}
+
+  <!-- Browse by section -->
+  <div class="widget">
+    <div class="widget-title">Browse</div>
+    <ul class="space-y-2 text-sm">
+      {{- $sections := slice "publications" "projects" "posts" }}
+      {{- range $sections }}
+        {{- $s := $.Site.GetPage . }}
+        {{- if $s }}
+        <li class="flex justify-between items-center">
+          <a href="{{ $s.Permalink }}" class="text-gray-700 hover:text-red-700 font-medium transition-colors">
+            {{ $s.Title }}
+          </a>
+          <span class="text-xs text-gray-400 font-mono tabular-nums">{{ len $s.Pages }}</span>
+        </li>
         {{- end }}
-      </ul>
-    </div>
+      {{- end }}
+    </ul>
   </div>
 
-  <!-- Tags widget -->
+  <!-- Keywords -->
   {{- $tags := $.Site.Taxonomies.tags }}
   {{- if $tags }}
-  <div class="sidebar-widget">
-    <div class="sidebar-widget__title">Keywords</div>
-    <div class="sidebar-widget__body">
-      <div class="tag-list">
-        {{- range $tags.ByCount }}
-        <a class="tag" href="{{ "/tags/" | relURL }}{{ .Page.Title | urlize }}/">
-          {{ .Page.Title }} ({{ .Count }})
-        </a>
-        {{- end }}
-      </div>
+  <div class="widget">
+    <div class="widget-title">Keywords</div>
+    <div class="flex flex-wrap gap-1.5">
+      {{- range $tags.ByCount }}
+      <a href="{{ "/tags/" | relURL }}{{ .Page.Title | urlize }}/" class="tag-pill">
+        {{ .Page.Title }}
+      </a>
+      {{- end }}
     </div>
   </div>
   {{- end }}
@@ -42,15 +51,18 @@
   <!-- Recent publications -->
   {{- $pubs := where $.Site.RegularPages "Type" "publications" }}
   {{- if $pubs }}
-  <div class="sidebar-widget">
-    <div class="sidebar-widget__title">Recent Publications</div>
-    <div class="sidebar-widget__body">
-      <ul class="sidebar-nav-list">
-        {{- range first 4 $pubs }}
-        <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
-        {{- end }}
-      </ul>
-    </div>
+  <div class="widget">
+    <div class="widget-title">Recent Publications</div>
+    <ul class="space-y-3 text-sm">
+      {{- range first 4 $pubs }}
+      <li>
+        <p class="category-label mb-0.5">{{ with .Params.venue }}{{ . | truncate 40 }}{{ else }}Publication{{ end }}</p>
+        <a href="{{ .Permalink }}" class="text-gray-700 hover:text-red-700 transition-colors leading-snug block">
+          {{ .Title | truncate 60 }}
+        </a>
+      </li>
+      {{- end }}
+    </ul>
   </div>
   {{- end }}
 
