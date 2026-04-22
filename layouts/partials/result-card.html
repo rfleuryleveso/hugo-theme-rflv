@@ -1,0 +1,72 @@
+{{- $p := . -}}
+<article class="result-card">
+  {{- if $p.Params.featured }}
+  <div class="result-card__featured-badge">Featured</div>
+  {{- end }}
+
+  <!-- Type badge -->
+  <span class="result-card__type result-card__type--{{ $p.Type }}">{{ $p.Type | title }}</span>
+
+  <!-- Title -->
+  <div class="result-card__title">
+    <a href="{{ $p.Permalink }}">{{ $p.Title }}</a>
+  </div>
+
+  <!-- Authors (publications) -->
+  {{- with $p.Params.authors }}
+  <div class="result-card__authors">
+    {{- range $i, $a := . }}{{ if $i }}, {{ end }}<span>{{ $a }}</span>{{ end }}
+  </div>
+  {{- end }}
+
+  <!-- Venue (publications) -->
+  {{- with $p.Params.venue }}
+  <div class="result-card__venue">{{ . }}</div>
+  {{- end }}
+
+  <!-- Meta row -->
+  <div class="result-card__meta">
+    <span class="result-card__meta-item">
+      📅 <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "Jan 2, 2006" }}</time>
+    </span>
+    {{- with $p.Params.doi }}
+    <span class="result-card__meta-item">DOI: <code>{{ . }}</code></span>
+    {{- end }}
+    {{- with $p.Params.status }}
+    <span class="result-card__meta-item">Status: {{ . }}</span>
+    {{- end }}
+    {{- with $p.ReadingTime }}
+    <span class="result-card__meta-item">⏱ {{ . }} min read</span>
+    {{- end }}
+  </div>
+
+  <!-- Abstract / Description -->
+  {{- with ($p.Params.abstract | default $p.Description) }}
+  <div class="result-card__abstract">{{ . }}</div>
+  {{- end }}
+
+  <!-- Tags -->
+  {{- with $p.Params.tags }}
+  <div class="tag-list">
+    {{- range . }}
+    <a class="tag" href="{{ "/tags/" | relURL }}{{ . | urlize }}/">{{ . }}</a>
+    {{- end }}
+  </div>
+  {{- end }}
+
+  <!-- Actions -->
+  <div class="result-card__actions">
+    <a class="btn btn--primary btn--sm" href="{{ $p.Permalink }}">
+      {{ if eq $p.Type "publications" }}Read Paper{{ else if eq $p.Type "projects" }}View Project{{ else }}Read More{{ end }}
+    </a>
+    {{- with $p.Params.pdf }}
+    <a class="btn btn--outline btn--sm" href="{{ . }}" target="_blank" rel="noopener">PDF</a>
+    {{- end }}
+    {{- with $p.Params.github }}
+    <a class="btn btn--ghost btn--sm" href="{{ . }}" target="_blank" rel="noopener">GitHub</a>
+    {{- end }}
+    {{- with $p.Params.demo }}
+    <a class="btn btn--ghost btn--sm" href="{{ . }}" target="_blank" rel="noopener">Demo</a>
+    {{- end }}
+  </div>
+</article>

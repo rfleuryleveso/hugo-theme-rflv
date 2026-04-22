@@ -1,0 +1,23 @@
+{{/* Render a simple register bit-field table */}}
+{{- $name := .Get "name" | default "Register" -}}
+{{- $width := .Get "width" | default "32" -}}
+<div style="overflow-x:auto;margin:1rem 0;">
+  <table style="font-size:.82rem;font-family:var(--font-mono);">
+    <caption style="font-weight:700;text-align:left;margin-bottom:.4rem;font-family:var(--font-sans);font-size:.88rem;">
+      {{ $name }} ({{ $width }}-bit)
+    </caption>
+    <thead>
+      <tr>
+        {{- $w := $width | int -}}
+        {{- range seq (sub $w 1) -1 0 }}
+        <th style="min-width:2rem;text-align:center;font-size:.7rem;">{{ . }}</th>
+        {{- end }}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        {{ .Inner | markdownify }}
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,11 @@
+name = "RFLV"
+license = "MIT"
+licenselink = "https://github.com/rfleuryleveso/hugo-theme-rflv/blob/main/LICENSE"
+description = "An IEEE Xplore-inspired Hugo theme for embedded software engineers and technical professionals"
+homepage = "https://github.com/rfleuryleveso/hugo-theme-rflv"
+tags = ["portfolio", "academic", "blog", "ieee", "technical", "embedded"]
+features = ["responsive", "dark-mode-ready", "syntax-highlighting"]
+min_version = "0.120.0"
+
+[author]
+  name = "rfleuryleveso"

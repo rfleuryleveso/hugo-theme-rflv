@@ -1,0 +1,57 @@
+{{- $page := . -}}
+<aside class="sidebar" aria-label="Sidebar">
+
+  <!-- Sections widget -->
+  <div class="sidebar-widget">
+    <div class="sidebar-widget__title">Browse</div>
+    <div class="sidebar-widget__body">
+      <ul class="sidebar-nav-list">
+        {{- $sections := slice "publications" "projects" "posts" }}
+        {{- range $sections }}
+          {{- $s := $.Site.GetPage . }}
+          {{- if $s }}
+          <li>
+            <a href="{{ $s.Permalink }}">
+              {{ $s.Title }}
+              <span class="count">{{ len $s.Pages }}</span>
+            </a>
+          </li>
+          {{- end }}
+        {{- end }}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Tags widget -->
+  {{- $tags := $.Site.Taxonomies.tags }}
+  {{- if $tags }}
+  <div class="sidebar-widget">
+    <div class="sidebar-widget__title">Keywords</div>
+    <div class="sidebar-widget__body">
+      <div class="tag-list">
+        {{- range $tags.ByCount }}
+        <a class="tag" href="{{ "/tags/" | relURL }}{{ .Page.Title | urlize }}/">
+          {{ .Page.Title }} ({{ .Count }})
+        </a>
+        {{- end }}
+      </div>
+    </div>
+  </div>
+  {{- end }}
+
+  <!-- Recent publications -->
+  {{- $pubs := where $.Site.RegularPages "Type" "publications" }}
+  {{- if $pubs }}
+  <div class="sidebar-widget">
+    <div class="sidebar-widget__title">Recent Publications</div>
+    <div class="sidebar-widget__body">
+      <ul class="sidebar-nav-list">
+        {{- range first 4 $pubs }}
+        <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+        {{- end }}
+      </ul>
+    </div>
+  </div>
+  {{- end }}
+
+</aside>

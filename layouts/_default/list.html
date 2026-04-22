@@ -1,0 +1,40 @@
+{{ define "main" }}
+{{ partial "breadcrumb.html" . }}
+
+<div class="page-layout">
+  <!-- Main content -->
+  <div class="page-content">
+    <div class="page-header">
+      <h1>{{ .Title }}</h1>
+      {{- with .Description }}
+      <p class="page-meta">{{ . }}</p>
+      {{- end }}
+      {{- if .Pages }}
+      <p class="page-meta">{{ len .Pages }} {{ if eq (len .Pages) 1 }}result{{ else }}results{{ end }}</p>
+      {{- end }}
+    </div>
+
+    {{- with .Content }}
+    <div class="article-body" style="margin-bottom:1.5rem;">{{ . }}</div>
+    {{- end }}
+
+    {{- if .Pages }}
+    <div class="result-list">
+      {{- range .Pages }}
+      {{ partial "result-card.html" . }}
+      {{- end }}
+    </div>
+
+    <!-- Pagination -->
+    {{- template "_internal/pagination.html" . }}
+    {{- else }}
+    <div class="result-card" style="text-align:center;color:var(--ieee-text-muted);padding:2rem;">
+      No content here yet.
+    </div>
+    {{- end }}
+  </div>
+
+  <!-- Sidebar -->
+  {{ partial "sidebar.html" . }}
+</div>
+{{ end }}

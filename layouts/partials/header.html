@@ -1,0 +1,55 @@
+{{- $currentPage := . -}}
+
+<!-- Top utility bar -->
+<div class="site-topbar">
+  <div class="container">
+    {{- range .Site.Params.topBarLinks }}
+    <a href="{{ .url }}">{{ .name }}</a>
+    {{- end }}
+    {{- with .Site.Params.email }}
+    <a href="mailto:{{ . }}">{{ . }}</a>
+    {{- end }}
+  </div>
+</div>
+
+<!-- Main header -->
+<header class="site-header">
+  <div class="container">
+    <!-- Branding -->
+    <a class="site-branding" href="{{ .Site.BaseURL }}">
+      <div class="site-logo-mark" aria-hidden="true">
+        {{- with .Site.Params.logoMark }}{{ . }}{{ else }}{{ substr .Site.Title 0 2 | upper }}{{ end }}
+      </div>
+      <div class="site-title-group">
+        <span class="site-title">{{ .Site.Title }}</span>
+        {{- with .Site.Params.subtitle }}
+        <span class="site-subtitle">{{ . }}</span>
+        {{- end }}
+      </div>
+    </a>
+
+    <!-- Search -->
+    <form class="header-search" action="{{ "/search/" | relURL }}" method="get" role="search">
+      <input type="search" name="q" placeholder="Search publications, posts…" aria-label="Search">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</header>
+
+<!-- Primary navigation -->
+<nav class="site-nav" aria-label="Primary navigation">
+  <div class="container">
+    <ul class="nav-list">
+      {{- range .Site.Menus.main }}
+      <li>
+        <a href="{{ .URL }}"
+           {{- if $currentPage.IsMenuCurrent "main" . }} class="active" aria-current="page"
+           {{- else if $currentPage.HasMenuCurrent "main" . }} class="active"
+           {{- end }}>
+          {{ .Name }}
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+</nav>

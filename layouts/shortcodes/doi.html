@@ -1,0 +1,6 @@
+{{- $doi := .Get 0 -}}
+<div class="doi-panel">
+  <span class="doi-panel__label">DOI</span>
+  <a class="doi-panel__value" href="https://doi.org/{{ $doi }}" target="_blank" rel="noopener">{{ $doi }}</a>
+  <a class="btn btn--outline btn--sm" href="https://doi.org/{{ $doi }}" target="_blank" rel="noopener">Open ↗</a>
+</div>

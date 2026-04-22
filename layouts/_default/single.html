@@ -1,0 +1,127 @@
+{{ define "main" }}
+{{ partial "breadcrumb.html" . }}
+
+<div class="page-layout">
+  <!-- Article -->
+  <article class="page-content">
+
+    <!-- Article header -->
+    <header class="article-header">
+      <!-- Type badge -->
+      <span class="result-card__type result-card__type--{{ .Type }}" style="margin-bottom:.75rem;display:inline-block;">
+        {{ .Type | title }}
+      </span>
+
+      <h1 class="article-title">{{ .Title }}</h1>
+
+      <!-- Meta table (IEEE-style) -->
+      <div class="article-meta">
+        <div class="article-meta__row">
+          <span class="article-meta__label">Date</span>
+          <span class="article-meta__value">
+            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+          </span>
+        </div>
+
+        {{- with .Params.authors }}
+        <div class="article-meta__row">
+          <span class="article-meta__label">Authors</span>
+          <span class="article-meta__value">{{ delimit . ", " }}</span>
+        </div>
+        {{- end }}
+
+        {{- with .Params.venue }}
+        <div class="article-meta__row">
+          <span class="article-meta__label">Venue</span>
+          <span class="article-meta__value">{{ . }}</span>
+        </div>
+        {{- end }}
+
+        {{- with .Params.doi }}
+        <div class="article-meta__row">
+          <span class="article-meta__label">DOI</span>
+          <span class="article-meta__value">
+            <a href="https://doi.org/{{ . }}" target="_blank" rel="noopener" class="doi-panel__value">{{ . }}</a>
+          </span>
+        </div>
+        {{- end }}
+
+        {{- with .Params.status }}
+        <div class="article-meta__row">
+          <span class="article-meta__label">Status</span>
+          <span class="article-meta__value">{{ . }}</span>
+        </div>
+        {{- end }}
+
+        {{- with .Params.categories }}
+        <div class="article-meta__row">
+          <span class="article-meta__label">Category</span>
+          <span class="article-meta__value">{{ delimit . ", " }}</span>
+        </div>
+        {{- end }}
+
+        {{- with .ReadingTime }}
+        <div class="article-meta__row">
+          <span class="article-meta__label">Read time</span>
+          <span class="article-meta__value">{{ . }} min</span>
+        </div>
+        {{- end }}
+      </div>
+
+      <!-- Tags -->
+      {{- with .Params.tags }}
+      <div class="tag-list" style="margin-bottom:.75rem;">
+        {{- range . }}
+        <a class="tag" href="{{ "/tags/" | relURL }}{{ . | urlize }}/">{{ . }}</a>
+        {{- end }}
+      </div>
+      {{- end }}
+
+      <!-- Action buttons -->
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;">
+        {{- with .Params.pdf }}
+        <a class="btn btn--primary" href="{{ . }}" target="_blank" rel="noopener">📄 Download PDF</a>
+        {{- end }}
+        {{- with .Params.github }}
+        <a class="btn btn--outline" href="{{ . }}" target="_blank" rel="noopener">⚙ GitHub</a>
+        {{- end }}
+        {{- with .Params.demo }}
+        <a class="btn btn--outline" href="{{ . }}" target="_blank" rel="noopener">▶ Demo</a>
+        {{- end }}
+        {{- with .Params.doi }}
+        <a class="btn btn--ghost" href="https://doi.org/{{ . }}" target="_blank" rel="noopener">🔗 DOI Link</a>
+        {{- end }}
+      </div>
+
+      <!-- Abstract block -->
+      {{- with .Params.abstract }}
+      <div class="article-abstract">
+        <div class="article-abstract__title">Abstract</div>
+        <p>{{ . }}</p>
+      </div>
+      {{- end }}
+    </header>
+
+    <!-- Body -->
+    <div class="article-body">
+      {{ .Content }}
+    </div>
+
+    <!-- Prev / Next navigation -->
+    {{- if or .PrevInSection .NextInSection }}
+    <div style="display:flex;justify-content:space-between;gap:1rem;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--ieee-border);">
+      {{- with .PrevInSection }}
+      <a class="btn btn--ghost" href="{{ .Permalink }}" style="max-width:45%;">← {{ .Title }}</a>
+      {{- end }}
+      {{- with .NextInSection }}
+      <a class="btn btn--ghost" href="{{ .Permalink }}" style="max-width:45%;margin-left:auto;">{{ .Title }} →</a>
+      {{- end }}
+    </div>
+    {{- end }}
+
+  </article>
+
+  <!-- Sidebar -->
+  {{ partial "sidebar.html" . }}
+</div>
+{{ end }}

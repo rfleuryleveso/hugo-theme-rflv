@@ -1,0 +1,132 @@
+{{ define "main" }}
+
+<!-- Hero section -->
+{{- $params := .Site.Params }}
+<div style="margin: -1.75rem -1.25rem 2rem; padding: 0 1.25rem;">
+  <div class="hero">
+    <div class="container">
+      <!-- Avatar -->
+      <div class="hero__avatar" aria-hidden="true">
+        {{- with $params.avatarImage }}
+        <img src="{{ . | relURL }}" alt="{{ $params.author }} avatar">
+        {{- else }}
+        {{ substr ($params.author | default "Me") 0 1 | upper }}
+        {{- end }}
+      </div>
+
+      <!-- Content -->
+      <div class="hero__content">
+        <div class="hero__name">{{ $params.author | default .Site.Title }}</div>
+        <div class="hero__title">{{ $params.role | default "Embedded Software Engineer" }}</div>
+        <p class="hero__bio">{{ $params.bio | default .Site.Params.description }}</p>
+
+        <div class="hero__links">
+          {{- with $params.github }}
+          <a class="btn btn--outline" href="https://github.com/{{ . }}" target="_blank" rel="noopener">GitHub</a>
+          {{- end }}
+          {{- with $params.linkedin }}
+          <a class="btn btn--outline" href="https://linkedin.com/in/{{ . }}" target="_blank" rel="noopener">LinkedIn</a>
+          {{- end }}
+          {{- with $params.orcid }}
+          <a class="btn btn--outline" href="https://orcid.org/{{ . }}" target="_blank" rel="noopener">ORCID</a>
+          {{- end }}
+          {{- with $params.email }}
+          <a class="btn btn--outline" href="mailto:{{ . }}">Email</a>
+          {{- end }}
+          {{- with $params.cvLink }}
+          <a class="btn btn--primary" href="{{ . | relURL }}">Download CV</a>
+          {{- end }}
+        </div>
+
+        <!-- Stats -->
+        {{- $pubs := where .Site.RegularPages "Type" "publications" }}
+        {{- $projs := where .Site.RegularPages "Type" "projects" }}
+        {{- $posts := where .Site.RegularPages "Type" "posts" }}
+        <div class="hero__stats">
+          {{- if $pubs }}
+          <div class="hero__stat">
+            <div class="hero__stat-num">{{ len $pubs }}</div>
+            <div class="hero__stat-label">Publications</div>
+          </div>
+          {{- end }}
+          {{- if $projs }}
+          <div class="hero__stat">
+            <div class="hero__stat-num">{{ len $projs }}</div>
+            <div class="hero__stat-label">Projects</div>
+          </div>
+          {{- end }}
+          {{- if $posts }}
+          <div class="hero__stat">
+            <div class="hero__stat-num">{{ len $posts }}</div>
+            <div class="hero__stat-label">Articles</div>
+          </div>
+          {{- end }}
+          {{- with $params.yearsExperience }}
+          <div class="hero__stat">
+            <div class="hero__stat-num">{{ . }}+</div>
+            <div class="hero__stat-label">Years Exp.</div>
+          </div>
+          {{- end }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main content grid -->
+<div class="page-layout">
+  <div class="page-content">
+
+    <!-- Featured / recent publications -->
+    {{- $pubs := where .Site.RegularPages "Type" "publications" }}
+    {{- if $pubs }}
+    <div class="section-title">
+      Publications
+      <a href="{{ "/publications/" | relURL }}">View all →</a>
+    </div>
+    <div class="result-list" style="margin-bottom:2rem;">
+      {{- $featured := where $pubs "Params.featured" true }}
+      {{- $shown := cond (gt (len $featured) 0) $featured (first 3 $pubs) }}
+      {{- range $shown }}
+      {{ partial "result-card.html" . }}
+      {{- end }}
+    </div>
+    {{- end }}
+
+    <!-- Featured / recent projects -->
+    {{- $projs := where .Site.RegularPages "Type" "projects" }}
+    {{- if $projs }}
+    <div class="section-title">
+      Projects
+      <a href="{{ "/projects/" | relURL }}">View all →</a>
+    </div>
+    <div class="result-list" style="margin-bottom:2rem;">
+      {{- $featured := where $projs "Params.featured" true }}
+      {{- $shown := cond (gt (len $featured) 0) $featured (first 3 $projs) }}
+      {{- range $shown }}
+      {{ partial "result-card.html" . }}
+      {{- end }}
+    </div>
+    {{- end }}
+
+    <!-- Recent posts -->
+    {{- $posts := where .Site.RegularPages "Type" "posts" }}
+    {{- if $posts }}
+    <div class="section-title">
+      Recent Articles
+      <a href="{{ "/posts/" | relURL }}">View all →</a>
+    </div>
+    <div class="result-list">
+      {{- range first 3 $posts }}
+      {{ partial "result-card.html" . }}
+      {{- end }}
+    </div>
+    {{- end }}
+
+  </div>
+
+  <!-- Sidebar -->
+  {{ partial "sidebar.html" . }}
+</div>
+
+{{ end }}

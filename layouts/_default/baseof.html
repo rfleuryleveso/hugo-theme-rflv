@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "en" }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body>
+  {{ partial "header.html" . }}
+
+  <main class="site-main" id="main-content">
+    <div class="container">
+      {{ block "main" . }}{{ end }}
+    </div>
+  </main>
+
+  {{ partial "footer.html" . }}
+
+  <script src="{{ "js/main.js" | relURL }}" defer></script>
+  {{- range .Site.Params.customJS }}
+  <script src="{{ . | relURL }}" defer></script>
+  {{- end }}
+</body>
+</html>

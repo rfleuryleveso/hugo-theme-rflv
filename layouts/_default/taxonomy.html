@@ -1,0 +1,25 @@
+{{ define "main" }}
+{{ partial "breadcrumb.html" . }}
+
+<div class="page-layout">
+  <div class="page-content">
+    <div class="page-header">
+      <h1>
+        {{- if eq .Data.Plural "tags" }}Keyword: {{ end }}
+        "{{ .Title }}"
+      </h1>
+      <p class="page-meta">{{ len .Pages }} {{ if eq (len .Pages) 1 }}result{{ else }}results{{ end }}</p>
+    </div>
+
+    <div class="result-list">
+      {{- range .Pages }}
+      {{ partial "result-card.html" . }}
+      {{- end }}
+    </div>
+
+    {{ template "_internal/pagination.html" . }}
+  </div>
+
+  {{ partial "sidebar.html" . }}
+</div>
+{{ end }}

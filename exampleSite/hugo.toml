@@ -1,0 +1,92 @@
+baseURL = "https://example.com/"
+languageCode = "en-us"
+title = "R. Fleury-Leveso"
+theme = "hugo-theme-rflv"
+
+# Build settings
+paginate = 10
+enableRobotsTXT = true
+enableEmoji = false
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true          # allow raw HTML in markdown
+  [markup.highlight]
+    style = "dracula"
+    lineNos = false
+    guessSyntax = true
+
+[params]
+  description = "Embedded software engineer specialising in real-time systems, firmware development, and hardware-software co-design."
+  author      = "R. Fleury-Leveso"
+  role        = "Embedded Software Engineer"
+  email       = "r.fleuryleveso@example.com"
+  github      = "rfleuryleveso"
+  linkedin    = "rfleuryleveso"
+  orcid       = "0000-0000-0000-0000"
+
+  # Short bio shown in the hero
+  bio = "I build firmware and real-time systems for resource-constrained hardware. Interested in RTOS scheduling, hardware-software co-design, and formal verification of safety-critical code."
+
+  # Stats shown in the hero
+  yearsExperience = 5
+
+  # Path to avatar image (relative to static/)
+  # avatarImage = "img/avatar.jpg"
+
+  # Link to your CV PDF
+  # cvLink = "files/cv.pdf"
+
+  # Logo mark — two characters shown in the blue square
+  logoMark = "RL"
+
+  # Google Scholar profile URL
+  # googleScholar = "https://scholar.google.com/citations?user=XXXX"
+
+  # Affiliations shown in the footer
+  affiliations = [
+    "Université de Technologie de Compiègne",
+    "Department of Computer Engineering"
+  ]
+
+  license = "Content licensed under CC BY 4.0"
+
+  syntaxHighlight = true
+
+  # External links shown in the top bar
+  [[params.topBarLinks]]
+    name = "IEEE Xplore"
+    url  = "https://ieeexplore.ieee.org"
+  [[params.topBarLinks]]
+    name = "arXiv"
+    url  = "https://arxiv.org"
+
+[taxonomies]
+  tag      = "tags"
+  category = "categories"
+
+# ── Menus ────────────────────────────────────────────────────
+[[menus.main]]
+  name       = "Home"
+  url        = "/"
+  weight     = 1
+
+[[menus.main]]
+  name       = "Publications"
+  url        = "/publications/"
+  weight     = 2
+
+[[menus.main]]
+  name       = "Projects"
+  url        = "/projects/"
+  weight     = 3
+
+[[menus.main]]
+  name       = "Articles"
+  url        = "/posts/"
+  weight     = 4
+
+[[menus.main]]
+  name       = "About"
+  url        = "/about/"
+  weight     = 5

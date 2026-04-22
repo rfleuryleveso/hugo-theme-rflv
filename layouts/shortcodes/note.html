@@ -1,0 +1,4 @@
+{{- $type := .Get "type" | default "note" -}}
+<div class="sc-{{ $type }}">
+  <strong>{{ $type | title }}:</strong> {{ .Inner | markdownify }}
+</div>

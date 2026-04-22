@@ -1,0 +1,5 @@
+{{- /* Inject Hugo's built-in Chroma CSS for the dracula theme */ -}}
+{{ $style := resources.Get "css/syntax.css" }}
+{{- if not $style }}
+{{- /* Fall back: let Hugo generate it inline */ -}}
+{{ end }}

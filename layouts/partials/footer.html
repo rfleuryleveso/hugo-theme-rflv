@@ -1,0 +1,68 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- About column -->
+      <div class="footer-col">
+        <div class="footer-col__title">{{ .Site.Title }}</div>
+        <p>{{ .Site.Params.description }}</p>
+        {{- with .Site.Params.affiliations }}
+        {{- range . }}
+        <p>{{ . }}</p>
+        {{- end }}
+        {{- end }}
+        <!-- Social links -->
+        <div style="display:flex;gap:.6rem;margin-top:.75rem;flex-wrap:wrap;">
+          {{- with .Site.Params.github }}
+          <a href="https://github.com/{{ . }}" class="btn btn--ghost btn--sm" target="_blank" rel="noopener">GitHub</a>
+          {{- end }}
+          {{- with .Site.Params.linkedin }}
+          <a href="https://linkedin.com/in/{{ . }}" class="btn btn--ghost btn--sm" target="_blank" rel="noopener">LinkedIn</a>
+          {{- end }}
+          {{- with .Site.Params.orcid }}
+          <a href="https://orcid.org/{{ . }}" class="btn btn--ghost btn--sm" target="_blank" rel="noopener">ORCID</a>
+          {{- end }}
+          {{- with .Site.Params.googleScholar }}
+          <a href="{{ . }}" class="btn btn--ghost btn--sm" target="_blank" rel="noopener">Scholar</a>
+          {{- end }}
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div class="footer-col">
+        <div class="footer-col__title">Sections</div>
+        <ul>
+          {{- range .Site.Menus.footer }}
+          <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+          {{- end }}
+          {{- if not .Site.Menus.footer }}
+          {{- range .Site.Menus.main }}
+          <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+          {{- end }}
+          {{- end }}
+        </ul>
+      </div>
+
+      <!-- Recent posts -->
+      <div class="footer-col">
+        <div class="footer-col__title">Recent Posts</div>
+        <ul>
+          {{- $posts := where .Site.RegularPages "Type" "posts" }}
+          {{- range first 4 $posts }}
+          <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+          {{- end }}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>
+        &copy; {{ now.Year }} {{ .Site.Params.author | default .Site.Title }}.
+        Built with <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>
+        &amp; <a href="https://github.com/rfleuryleveso/hugo-theme-rflv" target="_blank" rel="noopener">RFLV theme</a>.
+      </span>
+      {{- with .Site.Params.license }}
+      <span>{{ . }}</span>
+      {{- end }}
+    </div>
+  </div>
+</footer>

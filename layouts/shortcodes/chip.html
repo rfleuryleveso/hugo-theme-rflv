@@ -1,0 +1,8 @@
+{{- $techs := split (.Get 0 | default "") "," -}}
+<div class="sc-chip-group">
+  {{- range $techs }}
+  {{- $t := trim . " " }}
+  {{- $slug := lower $t | replaceRE "[^a-z0-9-]" "-" }}
+  <span class="sc-chip sc-chip--{{ $slug }}">{{ $t }}</span>
+  {{- end }}
+</div>
