@@ -2,10 +2,7 @@
 <html lang="{{ .Site.LanguageCode | default "en" }}" class="scroll-smooth">
 <head>
   {{ partial "head.html" . }}
-  {{/* Defer CSS so Tailwind scans all class names first */}}
-  {{ templates.Defer (dict "key" "css-global") }}
-    {{ partial "css.html" . }}
-  {{ end }}
+  {{ partial "css.html" . }}
 </head>
 <body class="bg-white text-gray-900 min-h-screen flex flex-col">
   {{ partial "header.html" . }}
