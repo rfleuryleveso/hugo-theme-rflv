@@ -101,7 +101,18 @@
     </div>
     {{- end }}
 
-    <div class="article-prose">
+    <div class="prose prose-lg max-w-none
+         prose-headings:font-bold prose-headings:text-gray-900
+         prose-h2:text-2xl prose-h3:text-xl prose-h2:mt-10 prose-h3:mt-8
+         prose-a:text-red-700 prose-a:font-medium prose-a:no-underline hover:prose-a:underline
+         prose-code:font-mono prose-code:text-sm prose-code:bg-gray-100 prose-code:text-gray-800
+         prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+         prose-code:before:content-none prose-code:after:content-none
+         prose-pre:bg-gray-950 prose-pre:text-gray-100 prose-pre:rounded-none prose-pre:border-l-4 prose-pre:border-red-700
+         prose-blockquote:border-l-4 prose-blockquote:border-red-700 prose-blockquote:bg-red-50
+         prose-blockquote:not-italic prose-blockquote:text-gray-700
+         prose-img:border prose-img:border-gray-200
+         prose-table:text-sm prose-th:bg-gray-900 prose-th:text-white">
       {{ .Content }}
     </div>
 

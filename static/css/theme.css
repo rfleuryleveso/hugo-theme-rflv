@@ -1,0 +1,225 @@
+/* ═══════════════════════════════════════════════════════════
+   IEEE Spectrum-inspired theme — component classes
+   Tailwind utility classes are handled by the CDN script.
+   This file only defines custom components that @apply cannot
+   cover from a CDN context.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Base overrides ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', 'Open Sans', ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a { transition: color 0.15s; }
+
+/* ── Category / topic label ─────────────────────────────── */
+.category-label {
+  display: inline-block;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #c8102e;
+  line-height: 1;
+}
+
+/* ── Card image wrapper ─────────────────────────────────── */
+.card-image {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background-color: #e5e7eb;
+  margin-bottom: 0.75rem;
+}
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease-out;
+}
+.group:hover .card-image img {
+  transform: scale(1.05);
+}
+
+/* ── Card title ─────────────────────────────────────────── */
+.card-title {
+  font-weight: 700;
+  line-height: 1.3;
+  color: #111827;
+  transition: color 0.15s;
+}
+.group:hover .card-title { color: #c8102e; }
+
+/* ── Card meta (author · date · reading time) ───────────── */
+.card-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* ── Navigation links ───────────────────────────────────── */
+.nav-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.nav-link:hover { color: #fff; text-decoration: none; }
+.nav-link-active { color: #fff; border-bottom-color: #c8102e; }
+
+/* ── Buttons ────────────────────────────────────────────── */
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+/* default .btn — no colour, for when a variant is also applied */
+.btn:hover { text-decoration: none; }
+
+.btn-primary  { background: #c8102e; color: #fff; border-color: #c8102e; }
+.btn-primary:hover  { background: #a10d24; border-color: #a10d24; color: #fff; text-decoration: none; }
+
+.btn-secondary { background: transparent; color: #374151; border-color: #d1d5db; }
+.btn-secondary:hover { background: #f9fafb; text-decoration: none; }
+
+.btn-ghost { background: transparent; color: #6b7280; border-color: transparent; }
+.btn-ghost:hover { background: #f3f4f6; color: #111827; text-decoration: none; }
+
+.btn-sm { padding: 0.25rem 0.625rem; font-size: 0.75rem; }
+
+/* ── Section divider header ─────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #111827;
+}
+.section-header h2 {
+  font-size: 0.875rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0;
+  color: #111827;
+}
+.section-header a {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #c8102e;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+.section-header a:hover { color: #a10d24; }
+
+/* ── Tag / keyword pill ─────────────────────────────────── */
+.tag-pill {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: #f3f4f6;
+  color: #4b5563;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+.tag-pill:hover { background: #c8102e; color: #fff; text-decoration: none; }
+
+/* ── Sidebar widgets ────────────────────────────────────── */
+.widget { margin-bottom: 2rem; }
+.widget-title {
+  font-size: 0.65rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* ── Shortcode callouts ─────────────────────────────────── */
+.callout-note,
+.callout-warning,
+.callout-tip,
+.callout-abstract {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+  margin: 1rem 0 1.25rem;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+.callout-note     { background: #eff6ff; border-left: 4px solid #3b82f6; color: #1e3a8a; }
+.callout-warning  { background: #fffbeb; border-left: 4px solid #f59e0b; color: #78350f; }
+.callout-tip      { background: #f0fdf4; border-left: 4px solid #22c55e; color: #14532d; }
+.callout-abstract { background: #fff1f2; border-left: 4px solid #c8102e; color: #1f2937; }
+
+/* ── DOI panel ──────────────────────────────────────────── */
+.doi-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  font-size: 0.875rem;
+}
+
+/* ── Pagination ─────────────────────────────────────────── */
+.pager {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #e5e7eb;
+  color: #4b5563;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.pager:hover { background: #c8102e; color: #fff; border-color: #c8102e; }
+.pager-active { background: #c8102e; color: #fff; border-color: #c8102e; }
+
+/* ── Scrollbar hide ─────────────────────────────────────── */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ── Content-type gradient placeholders ─────────────────── */
+.placeholder-publications { background: linear-gradient(135deg, #1e3a5f 0%, #0a1628 100%); }
+.placeholder-projects     { background: linear-gradient(135deg, #1a3a2f 0%, #0a1a14 100%); }
+.placeholder-posts        { background: linear-gradient(135deg, #1f2937 0%, #0a0f1a 100%); }
+.placeholder-default      { background: linear-gradient(135deg, #374151 0%, #111827 100%); }
