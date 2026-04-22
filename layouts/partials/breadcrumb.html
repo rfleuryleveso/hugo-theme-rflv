@@ -6,7 +6,7 @@
   {{- range .Ancestors -}}
     {{- $ancestors = $ancestors | append . -}}
   {{- end -}}
-  {{- range (reverse $ancestors) }}
+  {{- range ($ancestors | collections.Reverse) }}
   <span class="breadcrumb-sep" aria-hidden="true">›</span>
   <a href="{{ .Permalink }}">{{ .Title }}</a>
   {{- end }}

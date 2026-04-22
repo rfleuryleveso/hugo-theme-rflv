@@ -4,7 +4,8 @@ title = "R. Fleury-Leveso"
 theme = "hugo-theme-rflv"
 
 # Build settings
-paginate = 10
+[pagination]
+  pagerSize = 10
 enableRobotsTXT = true
 enableEmoji = false
 
